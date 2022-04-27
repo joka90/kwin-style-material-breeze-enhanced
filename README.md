@@ -1,4 +1,4 @@
-![Demo](data/preview.png)
+![Demo](data/enhanced.gif)
 
 ## material-decoration or breeze enhanced
 
@@ -76,6 +76,14 @@ To test changes, restart `kwin_x11` with:
 ```
 QT_LOGGING_RULES="*=false;kdecoration.material=true" kstart5 -- kwin_x11 --replace
 ```
+
+#### Configure
+
+Select the theme in window decorations page.
+
+In the Titlebar Buttons page settings tab add the Application Menu "button" to the titlebar as below
+
+![Add Application menu](data/add_app_menu.png)
 
 ### Update
 
