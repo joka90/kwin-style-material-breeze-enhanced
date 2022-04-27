@@ -72,7 +72,7 @@ QColor AppMenuButton::backgroundColor() const
     ) {
         return Qt::transparent;
     } else {
-        return Button::backgroundColor();
+        return Button::backgroundColorMaterial();
     }
 }
 
@@ -92,7 +92,7 @@ QColor AppMenuButton::foregroundColor() const
             deco->titleBarForegroundColor(),
             0.8);
     } else {
-        return Button::foregroundColor();
+        return Button::foregroundColorMaterial();
     }
 }
 

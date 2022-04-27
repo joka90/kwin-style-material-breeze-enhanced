@@ -16,6 +16,10 @@
             <default>ButtonDefault</default>
         </entry>
 
+        <entry name="ButtonSpacing" type = "Int">
+          <default>6</default>
+        </entry>
+
         <!-- title alignment -->
         <entry name="TitleAlignment" type="Enum">
             <choices>
@@ -25,6 +29,50 @@
                 <choice name="AlignRight" />
             </choices>
             <default>AlignCenterFullWidth</default>
+        </entry>
+        <entry name="ExtraTitleMargin" type = "Int">
+            <default>0</default>
+        </entry>
+
+        <!-- maximized windows -->
+        <entry name="DrawBorderOnMaximizedWindows" type = "Bool">
+            <default>false</default>
+        </entry>
+
+        <entry name="DrawTitleBarSeparator" type = "Bool">
+            <default>false</default>
+        </entry>
+
+        <entry name="ButtonType" type = "Enum">
+          <choices>
+              <choice name="ButtonMaterial" />
+              <choice name="ButtonMacOS" />
+              <choice name="ButtonBreeze" />
+          </choices>
+          <default>ButtonMaterial</default>
+        </entry>
+        <entry name="BackgroundOpacity" type = "Int">
+            <default>100</default>
+        </entry>
+
+        <!-- border size -->
+        <!--
+          this one is used only for window specific settings, since the default is globally set by kwin
+          the enumeration must be kept in sync with kwin's global settings
+        -->
+        <entry name="BorderSize" type = "Enum">
+          <choices>
+              <choice name="BorderNone" />
+              <choice name="BorderNoSides" />
+              <choice name="BorderTiny" />
+              <choice name="BorderNormal" />
+              <choice name="BorderLarge" />
+              <choice name="BorderVeryLarge" />
+              <choice name="BorderHuge" />
+              <choice name="BorderVeryHuge" />
+              <choice name="BorderOversized" />
+          </choices>
+          <default>BorderNone</default>
         </entry>
 
         <!-- opacity -->
@@ -66,6 +114,62 @@
             <default>255</default>
             <min>25</min>
             <max>255</max>
+        </entry>
+
+        <!-- hide title bar -->
+        <entry name="HideTitleBar" type = "Bool">
+          <default>false</default>
+        </entry>
+
+        <!-- opaque title bar -->
+        <entry name="OpaqueTitleBar" type = "Bool">
+          <default>false</default>
+        </entry>
+
+        <entry name="OpacityOverride" type = "Int">
+          <default>-1</default>
+        </entry>
+
+        <!-- flat title bar -->
+        <entry name="FlatTitleBar" type = "Bool">
+          <default>false</default>
+        </entry>
+
+        <!-- dialogs -->
+        <entry name="IsDialog" type = "Bool">
+          <default>false</default>
+        </entry>
+
+        <!-- window specific settings -->
+        <entry name="ExceptionType" type="Enum">
+          <choices>
+              <choice name="ExceptionWindowClassName" />
+              <choice name="ExceptionWindowTitle" />
+          </choices>
+          <default>ExceptionWindowClassName</default>
+        </entry>
+
+        <entry name="ExceptionPattern" type = "String"/>
+
+        <entry name="Enabled" type = "Bool">
+          <default>true</default>
+        </entry>
+
+        <entry name="Mask" type = "Int">
+          <default>0</default>
+        </entry>
+        <!-- gradient -->
+        <entry name="DrawBackgroundGradient" type = "Bool">
+            <default>true</default>
+        </entry>
+
+        <entry name="BackgroundGradientIntensity" type = "Int">
+            <default>20</default>
+        </entry>
+
+        <entry name="TitleBarFont" type = "String"/>
+        <entry name="TitleBarFontSize" type = "Int">
+          <default>10</default>
         </entry>
     </group>
 

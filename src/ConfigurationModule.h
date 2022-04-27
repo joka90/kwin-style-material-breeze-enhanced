@@ -37,6 +37,11 @@ private:
 
     int m_titleAlignment;
     int m_buttonSize;
+    int m_buttonSpacing;
+    bool m_drawBackgroundGradient;
+    int m_backgroundGradientIntensity;
+    bool m_flatTitleBar;
+    bool m_opaqueTitleBar;
     double m_activeOpacity;
     double m_inactiveOpacity;
     bool m_menuAlwaysShow;
@@ -45,6 +50,9 @@ private:
     int m_shadowSize;
     int m_shadowStrength;
     QColor m_shadowColor;
+    QString m_titleBarFont;
+    int m_titleBarFontSize;
+    int m_buttonType;
 };
 
 } // namespace Material

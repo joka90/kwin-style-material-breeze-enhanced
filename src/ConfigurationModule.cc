@@ -47,6 +47,7 @@
 #include <QTabWidget>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QFontComboBox>
 
 namespace Material
 {
@@ -57,6 +58,7 @@ ConfigurationModule::ConfigurationModule(QWidget *parent, const QVariantList &ar
     , m_titleAlignment(InternalSettings::AlignCenterFullWidth)
     , m_buttonSize(InternalSettings::ButtonDefault)
     , m_shadowSize(InternalSettings::ShadowVeryLarge)
+    , m_buttonType(InternalSettings::ButtonMaterial)
 {
     init();
 }
@@ -90,6 +92,24 @@ void ConfigurationModule::init()
     titleAlignment->setObjectName(QStringLiteral("kcfg_TitleAlignment"));
     generalForm->addRow(i18nd("breeze_kwin_deco", "Tit&le alignment:"), titleAlignment);
 
+    QFontComboBox *fontComboBox = new QFontComboBox(generalTab);
+    fontComboBox->setObjectName(QStringLiteral("kcfg_TitleBarFont"));
+    generalForm->addRow(i18nd("breeze_kwin_deco", "Font:"), fontComboBox);
+
+    QSpinBox *fontSizeSpinBox = new QSpinBox(generalTab);
+    fontSizeSpinBox->setMinimum(5);
+    fontSizeSpinBox->setMaximum(50);
+    fontSizeSpinBox->setSuffix(i18nd("breeze_kwin_deco", " pt"));
+    fontSizeSpinBox->setObjectName(QStringLiteral("kcfg_TitleBarFontSize"));
+    generalForm->addRow(i18nd("breeze_kwin_deco", "Size:"), fontSizeSpinBox);
+
+    QComboBox *buttonType = new QComboBox(generalTab);
+    buttonType->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button type:", "Material"));
+    buttonType->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button type:", "MacOS"));
+    buttonType->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button type:", "Breeze"));
+    buttonType->setObjectName(QStringLiteral("kcfg_ButtonType"));
+    generalForm->addRow(i18nd("breeze_kwin_deco", "Button type:"), buttonType);
+
     QComboBox *buttonSizes = new QComboBox(generalTab);
     buttonSizes->addItem(i18nd("breeze_kwin_deco", "Tiny"));
     buttonSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button size:", "Small"));
@@ -98,6 +118,35 @@ void ConfigurationModule::init()
     buttonSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button size:", "Very Large"));
     buttonSizes->setObjectName(QStringLiteral("kcfg_ButtonSize"));
     generalForm->addRow(i18nd("breeze_kwin_deco", "B&utton size:"), buttonSizes);
+
+    QSpinBox *buttonSpacing = new QSpinBox(generalTab);
+    buttonSpacing->setMinimum(0);
+    buttonSpacing->setMaximum(100);
+    buttonSpacing->setSuffix(i18nd("breeze_kwin_deco", " px"));
+    buttonSpacing->setObjectName(QStringLiteral("kcfg_ButtonSpacing"));
+    generalForm->addRow(i18nd("breeze_kwin_deco", "Button Spacing:"), buttonSpacing);
+
+    QCheckBox *flatTitleBar = new QCheckBox(generalTab);
+    flatTitleBar->setText(i18nd("breeze_kwin_deco", "Flat Title Bar"));
+    flatTitleBar->setObjectName(QStringLiteral("kcfg_FlatTitleBar"));
+    generalForm->addRow(QStringLiteral(""), flatTitleBar);
+
+    QCheckBox *drawBackgroundGradient = new QCheckBox(generalTab);
+    drawBackgroundGradient->setText(i18nd("breeze_kwin_deco", "Draw Background Gradient"));
+    drawBackgroundGradient->setObjectName(QStringLiteral("kcfg_DrawBackgroundGradient"));
+    generalForm->addRow(QStringLiteral(""), drawBackgroundGradient);
+
+    QSpinBox *backgroundGradientIntensity = new QSpinBox(generalTab);
+    backgroundGradientIntensity->setMinimum(0);
+    backgroundGradientIntensity->setMaximum(100);
+    backgroundGradientIntensity->setSuffix(i18nd("breeze_kwin_deco", " %"));
+    backgroundGradientIntensity->setObjectName(QStringLiteral("kcfg_BackgroundGradientIntensity"));
+    generalForm->addRow(i18nd("breeze_kwin_deco", "Background Gradient Intensity:"), backgroundGradientIntensity);
+
+    QCheckBox *opaqueTitleBar = new QCheckBox(generalTab);
+    opaqueTitleBar->setText(i18nd("breeze_kwin_deco", "Opaque Title Bar"));
+    opaqueTitleBar->setObjectName(QStringLiteral("kcfg_OpaqueTitleBar"));
+    generalForm->addRow(QStringLiteral(""), opaqueTitleBar);
 
     QDoubleSpinBox *activeOpacity = new QDoubleSpinBox(generalTab);
     activeOpacity->setMinimum(0.0);
@@ -170,11 +219,11 @@ void ConfigurationModule::init()
     shadowTab->setLayout(shadowForm);
 
     QComboBox *shadowSizes = new QComboBox(shadowTab);
-    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button size:", "None"));
-    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button size:", "Small"));
-    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button size:", "Medium"));
-    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button size:", "Large"));
-    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Button size:", "Very Large"));
+    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Shadow size:", "None"));
+    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Shadow size:", "Small"));
+    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Shadow size:", "Medium"));
+    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Shadow size:", "Large"));
+    shadowSizes->addItem(i18ndc("breeze_kwin_deco", "@item:inlistbox Shadow size:", "Very Large"));
     shadowSizes->setObjectName(QStringLiteral("kcfg_ShadowSize"));
     shadowForm->addRow(i18nd("breeze_kwin_deco", "Si&ze:"), shadowSizes);
 
@@ -196,11 +245,65 @@ void ConfigurationModule::init()
         InternalSettings::AlignCenterFullWidth,
         QStringLiteral("TitleAlignment")
     );
+    skel->addItemString( // TODO addItemProperty https://api.kde.org/frameworks/kconfig/html/classKCoreConfigSkeleton.html
+        QStringLiteral("TitleBarFont"),
+        m_titleBarFont,
+        "Sans,11,-1,5,50,0,0,0,0,0",
+        QStringLiteral("TitleBarFont")
+    );
+    skel->addItemInt(
+        QStringLiteral("TitleBarFontSize"),
+        m_titleBarFontSize,
+        11,
+        QStringLiteral("TitleBarFontSize")
+    );
+    skel->addItemInt(
+        QStringLiteral("ButtonType"),
+        m_buttonType,
+        InternalSettings::ButtonMaterial,
+        QStringLiteral("ButtonType")
+    );
     skel->addItemInt(
         QStringLiteral("ButtonSize"),
         m_buttonSize,
         InternalSettings::ButtonDefault,
         QStringLiteral("ButtonSize")
+    );
+    skel->addItemInt(
+        QStringLiteral("ButtonSpacing"),
+        m_buttonSpacing,
+        6,
+        QStringLiteral("ButtonSpacing")
+    );
+    skel->addItemBool(
+        QStringLiteral("DrawBackgroundGradient"),
+        m_drawBackgroundGradient,
+        true,
+        QStringLiteral("DrawBackgroundGradient")
+    );
+    skel->addItemInt(
+        QStringLiteral("BackgroundGradientIntensity"),
+        m_backgroundGradientIntensity,
+        20,
+        QStringLiteral("BackgroundGradientIntensity")
+    );
+    skel->addItemBool(
+        QStringLiteral("FlatTitleBar"),
+        m_flatTitleBar,
+        false,
+        QStringLiteral("FlatTitleBar")
+    );
+    skel->addItemBool(
+        QStringLiteral("OpaqueTitleBar"),
+        m_opaqueTitleBar,
+        false,
+        QStringLiteral("OpaqueTitleBar")
+    );
+    skel->addItemBool(
+        QStringLiteral("AnimationsEnabled"),
+        m_animationsEnabled,
+        true,
+        QStringLiteral("AnimationsEnabled")
     );
     skel->addItemDouble(
         QStringLiteral("ActiveOpacity"),

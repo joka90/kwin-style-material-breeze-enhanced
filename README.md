@@ -84,3 +84,8 @@ git pull origin master --ff-only
 ```
 
 Then re-run the install instructions.
+
+
+# Credits:
+[material-decoration](https://github.com/Zren/material-decoration), [BreezeEnhanced](https://github.com/tsujan/BreezeEnhanced) that is based on [BreezeBlurred](https://github.com/alex47/BreezeBlurred) which in turn is based on Breeze.
+

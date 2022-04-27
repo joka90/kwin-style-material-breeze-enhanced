@@ -24,6 +24,8 @@
 
 // KDecoration
 #include <KDecoration2/Decoration>
+#include <KDecoration2/DecoratedClient>
+#include <KDecoration2/DecorationSettings>
 #include <KDecoration2/DecorationButton>
 #include <KDecoration2/DecorationButtonGroup>
 
@@ -45,6 +47,32 @@ namespace Material
 class Button;
 class TextButton;
 class MenuOverflowButton;
+
+//* exception
+enum ExceptionMask
+{
+    None = 0,
+    BorderSize = 1<<4
+};
+
+//* metrics
+enum Metrics
+{
+
+    //* corner radius (pixels)
+    Frame_FrameRadius = 3,
+
+    //* titlebar metrics, in units of small spacing
+    TitleBar_TopMargin = 2,
+    TitleBar_BottomMargin = 2,
+    TitleBar_SideMargin = 2,
+    TitleBar_ButtonSpacing = 2,
+
+    // shadow dimensions (pixels)
+    Shadow_Overlap = 3,
+
+};
+
 
 class Decoration : public KDecoration2::Decoration
 {
@@ -115,11 +143,58 @@ private:
     QColor titleBarBackgroundColor() const;
     QColor titleBarForegroundColor() const;
 
+    void paintTitleBar(QPainter *painter, const QRect &repaintRegion);
+    void createShadow();
     void paintFrameBackground(QPainter *painter, const QRect &repaintRegion) const;
     void paintTitleBarBackground(QPainter *painter, const QRect &repaintRegion) const;
     void paintCaption(QPainter *painter, const QRect &repaintRegion) const;
     void paintButtons(QPainter *painter, const QRect &repaintRegion) const;
     void paintOutline(QPainter *painter, const QRect &repaintRegion) const;
+
+    //* caption height
+    int captionHeight() const;
+
+    //* return the rect in which caption will be drawn
+    QPair<QRect,Qt::Alignment> captionRect() const;
+
+    //* button height
+    int buttonHeight() const;
+
+    //*@name maximization modes
+    //@{
+    inline bool isMaximized() const;
+    inline bool isMaximizedHorizontally() const;
+    inline bool isMaximizedVertically() const;
+
+    inline bool isLeftEdge() const;
+    inline bool isRightEdge() const;
+    inline bool isTopEdge() const;
+    inline bool isBottomEdge() const;
+
+    inline bool hideTitleBar() const;
+    //@}
+
+    //*@name colors
+    //@{
+    QColor titleBarColor() const;
+    QColor outlineColor() const;
+    QColor fontColor() const;
+    //@}
+
+    //*@name border size
+    //@{
+    int borderSize(bool bottom = false) const;
+    inline bool hasBorders() const;
+    inline bool hasNoBorders() const;
+    inline bool hasNoSideBorders() const;
+    //@}
+
+    //*@name color customization
+    //@{
+    inline bool opaqueTitleBar() const;
+    inline bool flatTitleBar() const;
+    inline int titleBarAlpha() const;
+    //@}
 
     KDecoration2::DecorationButtonGroup *m_leftButtons;
     KDecoration2::DecorationButtonGroup *m_rightButtons;
@@ -136,6 +211,69 @@ private:
     friend class AppMenuButton;
     friend class TextButton;
     // friend class MenuOverflowButton;
+    //* active state change animation
+    QVariantAnimation *m_animation;
+
+    //* active state change opacity
+    qreal m_opacity = 0;
 };
+
+bool Decoration::hasBorders() const
+{
+    if( m_internalSettings && m_internalSettings->mask() & BorderSize ) return m_internalSettings->borderSize() > InternalSettings::BorderNoSides;
+    else return settings()->borderSize() > KDecoration2::BorderSize::NoSides;
+}
+
+bool Decoration::hasNoBorders() const
+{
+    if( m_internalSettings && m_internalSettings->mask() & BorderSize ) return m_internalSettings->borderSize() == InternalSettings::BorderNone;
+    else return settings()->borderSize() == KDecoration2::BorderSize::None;
+}
+
+bool Decoration::hasNoSideBorders() const
+{
+    if( m_internalSettings && m_internalSettings->mask() & BorderSize ) return m_internalSettings->borderSize() == InternalSettings::BorderNoSides;
+    else return settings()->borderSize() == KDecoration2::BorderSize::NoSides;
+}
+
+bool Decoration::isMaximized() const
+{ return client().data()->isMaximized() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+
+bool Decoration::isMaximizedHorizontally() const
+{ return client().data()->isMaximizedHorizontally() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+
+bool Decoration::isMaximizedVertically() const
+{ return client().data()->isMaximizedVertically() && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+
+bool Decoration::isLeftEdge() const
+{ return (client().data()->isMaximizedHorizontally() || client().data()->adjacentScreenEdges().testFlag( Qt::LeftEdge ) ) && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+
+bool Decoration::isRightEdge() const
+{ return (client().data()->isMaximizedHorizontally() || client().data()->adjacentScreenEdges().testFlag( Qt::RightEdge ) ) && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+
+bool Decoration::isTopEdge() const
+{ return (client().data()->isMaximizedVertically() || client().data()->adjacentScreenEdges().testFlag( Qt::TopEdge ) ) && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+
+bool Decoration::isBottomEdge() const
+{ return (client().data()->isMaximizedVertically() || client().data()->adjacentScreenEdges().testFlag( Qt::BottomEdge ) ) && !m_internalSettings->drawBorderOnMaximizedWindows(); }
+
+bool Decoration::hideTitleBar() const
+{ return m_internalSettings->hideTitleBar() && !client().data()->isShaded(); }
+
+bool Decoration::opaqueTitleBar() const
+{ return m_internalSettings->opaqueTitleBar(); }
+
+bool Decoration::flatTitleBar() const
+{ return m_internalSettings->flatTitleBar(); }
+
+int Decoration::titleBarAlpha() const
+{
+    if (m_internalSettings->opaqueTitleBar())
+        return 255;
+    int a = m_internalSettings->opacityOverride() > -1 ? m_internalSettings->opacityOverride()
+                                                        : m_internalSettings->backgroundOpacity();
+    a =  qBound(0, a, 100);
+    return qRound(static_cast<qreal>(a) * static_cast<qreal>(2.55));
+}
 
 } // namespace Material

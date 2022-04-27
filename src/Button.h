@@ -65,7 +65,10 @@ public:
     void setPenWidth(QPainter *painter, const qreal gridUnit, const qreal scale);
 
     virtual QColor backgroundColor() const;
+    QColor foregroundColor(const QColor& inactiveCol) const;
     virtual QColor foregroundColor() const;
+    QColor backgroundColorMaterial() const;
+    QColor foregroundColorMaterial() const;
 
     QRectF contentArea() const;
 
@@ -81,11 +84,56 @@ public:
     qreal transitionValue() const;
     void setTransitionValue(qreal value);
 
+    //* set icon size
+    void setIconSize( const QSize& value )
+    { m_iconSize = value; }
+
+    //* offset
+    void setOffset( const QPointF& value )
+    { m_offset = value; }
+
+    //* horizontal offset, for rendering
+    void setHorizontalOffset( qreal value )
+    { m_offset.setX( value ); }
+
+    //* vertical offset, for rendering
+    void setVerticalOffset( qreal value )
+    { m_offset.setY( value ); }
+
     QMargins* padding();
 
+    //* flag
+    enum Flag
+    {
+        FlagNone,
+        FlagStandalone,
+        FlagFirstInList,
+        FlagLastInList
+    };
+
+    //* flag
+    void setFlag( Flag value )
+    { m_flag = value; }
+
+    bool isAppMenu() const {
+      return type() == KDecoration2::DecorationButtonType::ApplicationMenu || type() == KDecoration2::DecorationButtonType::Custom;
+    }
+    void setOpacity2( qreal value )
+    {
+        if( m_opacity2 == value ) return;
+        m_opacity2 = value;
+        update();
+    }
 private Q_SLOTS:
     void updateAnimationState(bool hovered);
-
+    //* apply configuration changes
+    //void reconfigure();
+    void updateAnimationState2(bool hovered);
+    //* apply configuration changes
+    void reconfigure2();
+    //* draw button icon
+    void drawIconBreezeEnhanced( QPainter *);
+    void drawIconMaterial( QPainter *);
 signals:
     void animationEnabledChanged();
     void animationDurationChanged();
@@ -95,8 +143,15 @@ signals:
 
 private:
     bool m_animationEnabled;
+    //* vertical offset (for rendering)
+    QPointF m_offset;
+    //* icon size
+    QSize m_iconSize;
+    Flag m_flag = FlagNone;
     QVariantAnimation *m_animation;
-    qreal m_opacity;
+    qreal m_opacity = 0;
+    QVariantAnimation *m_animation2;
+    qreal m_opacity2 = 0;
     qreal m_transitionValue;
     QMargins *m_padding;
     bool m_isGtkButton;
