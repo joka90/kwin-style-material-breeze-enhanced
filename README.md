@@ -1,8 +1,8 @@
 ![Demo](data/preview.png)
 
-## material-decoration
+## material-decoration or breeze enhanced
 
-Material-ish window decoration theme for KWin.
+Material-ish or breeze enhanced window decoration theme for KWin.
 
 ### Locally Integrated Menus
 
@@ -39,8 +39,9 @@ Build dependencies:
 
 - Ubuntu:
 ```
-sudo apt build-dep breeze
-sudo apt build-dep kwin
+sudo sed -i 's,^# deb-src,deb-src,g' /etc/apt/sources.list
+sudo apt update
+sudo apt build-dep breeze kwin
 ```
 
 
@@ -53,7 +54,13 @@ cd material-decoration
 ```
 
 Then compile the decoration, and install it:
+- Ubuntu:
+```
+dpkg-buildpackage -us -uc
+sudo dpkg -i ../kwin-style-material-breeze-enhanced*.deb
+```
 
+- Others:
 ```
 mkdir build
 cd build

@@ -1,0 +1,41 @@
+Source: kwin-style-material-breeze-enhanced
+Section: kde
+Priority: optional
+Maintainer: Johan Källström <joka90@gmail.com>
+Uploaders: Johan Källström <joka90@gmail.com>,
+Build-Depends: cmake (>= 3.0~),
+               debhelper-compat (= 13),
+               extra-cmake-modules (>= 5.9.5~),
+               gettext,
+               libkdecorations2-dev (>= 4:5.12.4~),
+               libkf5config-dev (>= 5.9.5~),
+               libkf5configwidgets-dev (>= 5.9.5~),
+               libkf5coreaddons-dev (>= 5.9.5~),
+               libkf5guiaddons-dev (>= 5.9.5~),
+               libkf5i18n-dev (>= 5.9.5~),
+               libkf5iconthemes-dev (>= 5.9.5~),
+               libkf5kcmutils-dev (>= 5.9.5~),
+               libkf5package-dev (>= 5.9.5~),
+               libkf5style-dev (>= 5.9.5~),
+               libkf5wayland-dev (>= 5.9.5.0~) [linux-any],
+               libkf5windowsystem-dev (>= 5.9.5~),
+               libqt5x11extras5-dev (>= 5.9.5~),
+               libx11-dev,
+               pkg-config,
+               pkg-kde-tools (>= 0.15.15ubuntu1~),
+               qtbase5-dev (>= 5.9.5~),
+               qtdeclarative5-dev (>= 5.9.5~),
+Standards-Version: 4.6.0
+Homepage: https://github.com/joka90/kwin-style-material-breeze-enhanced/
+Vcs-Browser: https://github.com/joka90/kwin-style-material-breeze-enhanced/
+Vcs-Git: https://github.com/joka90/kwin-style-material-breeze-enhanced.git
+Rules-Requires-Root: no
+
+
+Package: kwin-style-material-breeze-enhanced
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Description: KWin Material Decoration or Breeze enhanced Style
+ This is the Material Decoration or Breeze enhanced window manager style for the
+ KDE Plasma 5 desktop.

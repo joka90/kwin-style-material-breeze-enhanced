@@ -1,0 +1,11 @@
+kwin-style-material-breeze-enhanced (7.0.1-1) unstable; urgency=medium
+
+  Cleanup and test on 22.04
+
+ -- Johan Källström <joka90@gmail.com>  Wed, 27 Apr 2022 14:02:53 +0200
+
+kwin-style-material-breeze-enhanced (7.0.0-1) unstable; urgency=medium
+
+  initial on 18.04
+
+ -- Johan Källström <joka90@gmail.com>  Thu, 11 Mar 2021 08:18:45 +0100

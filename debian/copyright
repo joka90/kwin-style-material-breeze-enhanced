@@ -1,0 +1,17 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Contact: joka90@gmail.com
+Upstream-Name: kwin-style-material-breeze-enhanced
+Source: https://github.com/joka90/kwin-style-material-breeze-enhanced/
+
+Files: src/*
+Copyright: 2018, Vlad Zagorodniy <vladzzag@gmail.com>
+           2018-2021, Tsu Jan <tsujan2000@gmail.com>
+           2020-2022, Chris Holland <zrenfire@gmail.com>
+           2021-2022, Johan Källström <joka90@gmail.com>
+License: GPL-2
+
+Files: debian/*
+Copyright: 2014, Jonathan Riddell <jriddell@ubuntu.com>
+           2014, Scarlett Clark <scarlett@scarlettgatelyclark.com>
+           2022, Patrick Franz <deltaone@debian.org>
+License: GPL-2+
